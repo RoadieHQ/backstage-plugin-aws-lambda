@@ -14,5 +14,6 @@
  * limitations under the License.
  */
 
-export { plugin } from './plugin';
-export { awsLambdaApiRef, AwsLambdaClient } from './api/index';
+export * from './plugin';
+export * from './api';
+export * from './components/Router';

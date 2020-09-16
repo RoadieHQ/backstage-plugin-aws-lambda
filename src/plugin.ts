@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-import { createPlugin, createRouteRef } from '@backstage/core';
-import AWSLambdaPage from './components/AWSLambdaPage';
+import {
+  createApiFactory,
+  createPlugin,
+  createRouteRef,
+} from '@backstage/core';
+import { awsLambdaApiRef, AwsLambdaClient } from './api';
 
 export const rootRouteRef = createRouteRef({
-  path: '/aws-lambda',
-  title: 'AWS lambda function list',
-});
-export const projectRouteRef = createRouteRef({
-  path: '/aws-lambda/:kind/:optionalNamespaceAndName',
-  title: 'AWS lambda function list for project',
+  path: '',
+  title: 'aws-lambda',
 });
 
 export const plugin = createPlugin({
   id: 'aws-lambda',
-  register({ router }) {
-    router.addRoute(rootRouteRef, AWSLambdaPage);
-    router.addRoute(projectRouteRef, AWSLambdaPage);
-  },
+  apis: [createApiFactory(awsLambdaApiRef, new AwsLambdaClient())],
 });
