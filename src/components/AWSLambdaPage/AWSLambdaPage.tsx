@@ -28,7 +28,9 @@ import {
 import { AWSLambdaPageTable } from '../AWSLambdaPageTable';
 import { AppStateProvider } from '../../state';
 
-const AWSLambdaPage: FC<{}> = () => (
+import { Entity } from '@backstage/catalog-model';
+
+const AWSLambdaPage: FC<{ entity: Entity }> = ({ entity }) => (
   <AppStateProvider>
     <Page theme={pageTheme.tool}>
       <Header
@@ -46,7 +48,7 @@ const AWSLambdaPage: FC<{}> = () => (
         </ContentHeader>
         <Grid container spacing={3} direction="column">
           <Grid item>
-            <AWSLambdaPageTable />
+            <AWSLambdaPageTable entity={entity} />
           </Grid>
         </Grid>
       </Content>

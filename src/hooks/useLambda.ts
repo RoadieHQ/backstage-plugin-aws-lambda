@@ -41,7 +41,12 @@ export function useLambda({
   const { loading, value: lambdaData, error, retry } = useAsyncRetry<
     LambdaData[]
   >(async () => {
-    if (loading || !region || !identityPoolId || !awsAccessKeyId) {
+    if (
+      isLoading ||
+      !region ||
+      (!identityPoolId && authMethod === 'google') ||
+      ((!awsAccessKeyId || !awsAccessKeySecret) && authMethod === 'aws')
+    ) {
       return [];
     }
 

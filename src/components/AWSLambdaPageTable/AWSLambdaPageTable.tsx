@@ -17,12 +17,12 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 import { Typography, Box, Button } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import { Table, TableColumn } from '@backstage/core';
-import { useEntityCompoundName } from '@backstage/plugin-catalog';
+import { Entity } from '@backstage/catalog-model';
+import moment from 'moment';
 import { useLambda } from '../../hooks/useLambda';
 import { LambdaData } from '../../types';
 import { Settings } from '../Settings';
 import { AppContext, useSettings } from '../../state';
-import moment from 'moment';
 import { useServiceEntityAnnotations } from '../../hooks/useServiceEntityAnnotations';
 import SimpleBanner from '../SimpleBanner';
 import { SettingsComponent } from '../Settings/SettingsButton';
@@ -165,66 +165,58 @@ export const AWSLambdaTableView: FC<Props> = ({
   );
 };
 
-export const AWSLambdaPageTable = () => {
+export const AWSLambdaPageTable = ({ entity }: { entity: Entity }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
   const [filteredRows, setFilteredRows] = useState<LambdaData[]>([]);
-  let entityCompoundName = useEntityCompoundName();
-  if (!entityCompoundName.name) {
-    // TODO(shmidt-i): remove when is fully integrated
-    // into the entity view
-    entityCompoundName = {
-      kind: 'Component',
-      name: 'backstage',
-      namespace: 'default',
-    };
-  }
+
   const {
     lambdaNames: lambdaAnnotationList,
     value: projectName,
     loading,
-  } = useServiceEntityAnnotations(entityCompoundName);
-  if (!entityCompoundName.name) {
-    entityCompoundName = {
-      kind: 'Component',
-      name: 'backstage',
-      namespace: 'default',
-    };
-  }
-  const [settings, dispatch] = useContext(AppContext);
+  } = useServiceEntityAnnotations(entity);
 
-  useSettings(entityCompoundName.name);
+  const [
+    {
+      awsAccessKeyId,
+      awsAccessKeySecret,
+      authMethod,
+      identityPoolId,
+      region,
+      showSettings,
+    },
+    dispatch,
+  ] = useContext(AppContext);
+
+  useSettings(projectName || '');
 
   const [tableProps] = useLambda({
     isLoading: loading,
-    awsAccessKeyId: settings.awsAccessKeyId,
-    awsAccessKeySecret: settings.awsAccessKeySecret,
-    authMethod: settings.authMethod,
-    identityPoolId: settings.identityPoolId,
-    region: settings.region,
+    awsAccessKeyId: awsAccessKeyId,
+    awsAccessKeySecret: awsAccessKeySecret,
+    authMethod: authMethod,
+    identityPoolId: identityPoolId,
+    region: region,
   });
 
   useEffect(() => {
     tableProps.retry();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    settings.identityPoolId,
-    settings.region,
-    settings.authMethod,
-    settings.awsAccessKeyId,
-    settings.awsAccessKeySecret,
-  ]);
+  }, [identityPoolId, region, authMethod, awsAccessKeyId, awsAccessKeySecret]);
 
   useEffect(() => {
-    setFilteredRows(
+    const filtered =
       tableProps.lambdaData
         ?.filter(v =>
           lambdaAnnotationList?.length
-            ? lambdaAnnotationList.includes(v.functionName)
+            ? lambdaAnnotationList[0] === 'all' ||
+              lambdaAnnotationList.includes(v.functionName)
             : true,
         )
-        .slice(page * pageSize, (page + 1) * pageSize) ?? [],
-    );
+        .slice(page * pageSize, (page + 1) * pageSize) ?? [];
+    if (filteredRows.length !== filtered.length) {
+      setFilteredRows(filtered);
+    }
   }, [tableProps.lambdaData, page, pageSize, lambdaAnnotationList]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -232,14 +224,13 @@ export const AWSLambdaPageTable = () => {
       <SimpleBanner
         onButtonClick={() => dispatch({ type: 'showSettings' })}
         isVisible={
-          !loading &&
-          (!settings.region ||
-            !settings.identityPoolId ||
-            !settings.awsAccessKeyId)
+          (!loading && !region) ||
+          (!identityPoolId && authMethod === 'google') ||
+          ((!awsAccessKeyId || !awsAccessKeySecret) && authMethod === 'aws')
         }
       />
 
-      {settings.showSettings && <Settings repoName={entityCompoundName.name} />}
+      {showSettings && <Settings repoName={projectName!} />}
       <AWSLambdaTableView
         {...tableProps}
         projectName={projectName!}

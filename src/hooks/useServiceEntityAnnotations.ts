@@ -14,27 +14,19 @@
  * limitations under the License.
  */
 
-import { useAsync } from 'react-use';
-import { catalogApiRef, EntityCompoundName } from '@backstage/plugin-catalog';
-import { useApi } from '@backstage/core';
+import { Entity } from '@backstage/catalog-model';
 
-export const useServiceEntityAnnotations = (name: EntityCompoundName) => {
-  const catalogApi = useApi(catalogApiRef);
+export const AWS_LAMBDA_ANNOTATION = 'backstage.io/aws-lambda';
+export const useServiceEntityAnnotations = (entity: Entity) => {
+  const lambdaNames =
+    entity?.metadata.annotations?.[AWS_LAMBDA_ANNOTATION]?.split(',') ?? [];
+  const projectName =
+    entity?.metadata.annotations?.['github.com/project-slug'] ?? '';
 
-  const { value, loading, error } = useAsync(async () => {
-    const entity = await catalogApi.getEntityByName(name);
-    const lambdaNames =
-      entity?.metadata.annotations?.['backstage.io/aws-lambda']?.split(',') ??
-      [];
-    const projectName =
-      entity?.metadata.annotations?.['github.com/project-slug'] ?? '';
-
-    return { lambdaNames, projectName };
-  });
   return {
-    value: value?.projectName,
-    lambdaNames: value?.lambdaNames,
-    loading,
-    error,
+    value: projectName,
+    lambdaNames: lambdaNames,
+    loading: false,
+    error: false,
   };
 };
