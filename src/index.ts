@@ -16,4 +16,4 @@
 
 export * from './plugin';
 export * from './api';
-export * from './components/Router';
+export * from './components/AWSLambdaOverview/AWSLambdaOverview';

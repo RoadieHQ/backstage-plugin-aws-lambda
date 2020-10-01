@@ -14,17 +14,8 @@
  * limitations under the License.
  */
 
-import {
-  createApiFactory,
-  createPlugin,
-  createRouteRef,
-} from '@backstage/core';
+import { createApiFactory, createPlugin } from '@backstage/core';
 import { awsLambdaApiRef, AwsLambdaClient } from './api';
-
-export const rootRouteRef = createRouteRef({
-  path: '',
-  title: 'aws-lambda',
-});
 
 export const plugin = createPlugin({
   id: 'aws-lambda',

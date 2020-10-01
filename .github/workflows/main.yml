@@ -21,8 +21,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
-      - run: yarn run tsc
-      - run: yarn run build
+      - run: yarn run tsc --build tsconfig.example.json
+      - run: yarn run build-rollup
       - run: yarn test
         env:
           CI: true

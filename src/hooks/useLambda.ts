@@ -14,70 +14,53 @@
  * limitations under the License.
  */
 import { useAsyncRetry } from 'react-use';
-import { useApi, googleAuthApiRef, errorApiRef } from '@backstage/core';
+import { useApi, errorApiRef, configApiRef } from '@backstage/core';
 import { LambdaData } from '../types';
 import { awsLambdaApiRef } from '../api';
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 export function useLambda({
-  isLoading,
+  lambdaName,
   region,
-  identityPoolId,
-  awsAccessKeyId,
-  awsAccessKeySecret,
-  authMethod,
 }: {
-  isLoading: boolean;
+  lambdaName: string;
   region: string;
-  identityPoolId: string;
-  awsAccessKeyId: string;
-  awsAccessKeySecret: string;
-  authMethod: string;
 }) {
-  const googleAuth = useApi(googleAuthApiRef);
   const lambdaApi = useApi(awsLambdaApiRef);
   const errorApi = useApi(errorApiRef);
-
-  const { loading, value: lambdaData, error, retry } = useAsyncRetry<
-    LambdaData[]
-  >(async () => {
-    if (
-      isLoading ||
-      !region ||
-      (!identityPoolId && authMethod === 'google') ||
-      ((!awsAccessKeyId || !awsAccessKeySecret) && authMethod === 'aws')
-    ) {
-      return [];
-    }
-
-    const googleIdToken =
-      authMethod === 'google' ? await googleAuth.getIdToken() : '';
-    try {
-      const lambdaFunctions = await lambdaApi.listLambdas({
-        googleIdToken,
+  const configApi = useApi(configApiRef);
+  const getFunctionByName = useCallback(
+    async () =>
+      lambdaApi.getFunctionByName({
+        backendUrl: configApi.getString('backend.baseUrl'),
         awsRegion: region,
-        identityPoolId,
-        awsAccessKeyId,
-        awsAccessKeySecret,
-        authMethod,
-      });
-      return lambdaFunctions.lambdaData;
+        functionName: lambdaName,
+      }),
+    [region, lambdaName], // eslint-disable-line react-hooks/exhaustive-deps
+  );
+  const {
+    loading,
+    value: lambda,
+    error,
+    retry,
+  } = useAsyncRetry<LambdaData | null>(async () => {
+    try {
+      const lambdaFunction = await getFunctionByName();
+      return lambdaFunction;
     } catch (err) {
+      if (err?.message === 'MissingBackendAwsAuthException') {
+        errorApi.post(new Error('Please add aws auth backend plugin'));
+        return null;
+      }
       errorApi.post(err);
-      return [];
+      return null;
     }
-  }, [region, identityPoolId]);
-
-  useEffect(() => {
-    if (!isLoading) {
-      retry();
-    }
-  }, [isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return [
     {
       loading,
-      lambdaData,
+      lambda,
       error,
       retry,
     },

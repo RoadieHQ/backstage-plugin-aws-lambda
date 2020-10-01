@@ -6,4 +6,7 @@ export type LambdaData = {
   lastModifiedDate: string;
   runtime: string;
   memory: number;
+  state: string;
+  lastUpdateStatus: string;
+  lastUpdateStatusReason: string;
 };
