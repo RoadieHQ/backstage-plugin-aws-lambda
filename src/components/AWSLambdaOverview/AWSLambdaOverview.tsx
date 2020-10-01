@@ -220,7 +220,6 @@ const AWSLambdaOverview = ({ entity }: { entity: Entity }) => {
     region: lambdaRegion,
   });
   if (lambdaData.loading) {
-    console.log('loading');
     return (
       <Card>
         <CardHeader title={<Typography variant="h5">AWS Lambda</Typography>} />
@@ -228,7 +227,6 @@ const AWSLambdaOverview = ({ entity }: { entity: Entity }) => {
       </Card>
     );
   }
-  console.log('not loading');
   return (
     <>{lambdaData.lambda && <OverviewComponent lambda={lambdaData.lambda} />}</>
   );
