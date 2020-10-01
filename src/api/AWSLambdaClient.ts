@@ -17,86 +17,50 @@
 import AWS from 'aws-sdk';
 import { AwsLambdaApi } from './AWSLambdaApi';
 import { LambdaData } from '../types';
-import { FunctionList } from 'aws-sdk/clients/lambda';
 
-function generateCredentials({
-  googleIdToken,
-  identityPoolId,
-  awsAccessKeyId,
-  awsAccessKeySecret,
-  authMethod,
-}: {
-  googleIdToken: string;
-  identityPoolId: string;
-  awsAccessKeyId: string;
-  awsAccessKeySecret: string;
-  authMethod: string;
-}) {
-  if (authMethod === 'google') {
-    return new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: identityPoolId,
-      Logins: {
-        'accounts.google.com': googleIdToken,
-      },
+async function generateCredentials(backendUrl: string) {
+  const respData = await fetch(`${backendUrl}/api/aws/credentials`);
+  try {
+    const resp = await respData.json();
+    return new AWS.Credentials({
+      accessKeyId: resp.AccessKeyId,
+      secretAccessKey: resp.SecretAccessKey,
+      sessionToken: resp.SessionToken,
     });
+  } catch (e) {
+    throw new Error('MissingBackendAwsAuthException');
   }
-  return new AWS.Credentials({
-    accessKeyId: awsAccessKeyId,
-    secretAccessKey: awsAccessKeySecret,
-  });
 }
 export class AwsLambdaClient implements AwsLambdaApi {
-  async listLambdas({
-    googleIdToken,
-    identityPoolId,
+  async getFunctionByName({
     awsRegion,
-    awsAccessKeyId,
-    awsAccessKeySecret,
-    authMethod,
+    backendUrl,
+    functionName,
   }: {
-    googleIdToken: string;
-    identityPoolId: string;
     awsRegion: string;
-    awsAccessKeyId: string;
-    awsAccessKeySecret: string;
-    authMethod: string;
-  }): Promise<{
-    lambdaData: LambdaData[];
-  }> {
+    backendUrl: string;
+    functionName: string;
+  }): Promise<LambdaData> {
     AWS.config.region = awsRegion;
-    AWS.config.credentials = generateCredentials({
-      googleIdToken,
-      identityPoolId,
-      awsAccessKeyId,
-      awsAccessKeySecret,
-      authMethod,
-    });
+    AWS.config.credentials = await generateCredentials(backendUrl);
     const lambdaApi = new AWS.Lambda({});
-    const lambdas: FunctionList = [];
-    let resp = null;
-    do {
-      resp = await lambdaApi
-        .listFunctions({
-          MaxItems: 50,
-          Marker: (resp && resp.NextMarker) ?? undefined,
-        })
-        .promise();
-      lambdas.push(...resp.Functions!);
-    } while (resp && resp.NextMarker);
-
-    const lambdaData =
-      lambdas.map(
-        (v: any) =>
-          ({
-            codeSize: v.CodeSize,
-            description: v.Description,
-            functionName: v.FunctionName,
-            lastModifiedDate: v.LastModified,
-            runtime: v.Runtime,
-            memory: v.MemorySize,
-            region: awsRegion,
-          } as LambdaData),
-      ) || [];
-    return { lambdaData };
+    const resp = await lambdaApi
+      .getFunction({
+        FunctionName: functionName,
+      })
+      .promise();
+    const v = resp.Configuration!;
+    return {
+      codeSize: v.CodeSize!,
+      description: v.Description!,
+      functionName: v.FunctionName!,
+      lastModifiedDate: v.LastModified!,
+      runtime: v.Runtime!,
+      memory: v.MemorySize!,
+      region: awsRegion,
+      state: v.State!,
+      lastUpdateStatus: v.LastUpdateStatus!,
+      lastUpdateStatusReason: v.LastUpdateStatusReason!,
+    };
   }
 }

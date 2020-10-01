@@ -1,36 +1,60 @@
 # AWS lambda plugin
 
+![a list of pull requests in the GitHub Pull Requests](https://raw.githubusercontent.com/RoadieHQ/backstage-plugin-aws-lambda/master/docs/lambda-widget.png)
+
 Welcome to the AWS lambda plugin plugin!
 
 _This plugin was created through the Backstage CLI_
 
-## Getting started
-
-Your plugin has been added to the example app in this repository, meaning you'll be able to access it by running `yarn start` in the root directory, and then navigating to (http://localhost:3000/aws-lambda).
-
-You can also serve the plugin in isolation by running `yarn start` in the plugin directory.
-This method of serving the plugin provides quicker iteration speed and a faster startup and hot reloads.
+This is a plugin that provides a overview widget for your lambda function. It shows the name, description, status of last deployment, reason for unsuccessful deployments and provides link to lambda function and link to logs of the function in cloudwatch.
 
 ## AWS Lambda plugin getting started
 
-There are two options to authenticate with AWS with this plugin (configurable by clicking settings button in lambda table component).
+## auth
 
-- Identity pools:
+In order to perform requests to AWS lambda plugin first asks backend for temporary credentials via /api/aws/credentials
 
-  tutorial to use these can be found here:
-
-  https://github.com/spotify/backstage/issues/1988#issuecomment-675559584
-
-- AWS Api key (ACCESS_KEY_ID, ACCESS_KEY_SECRET).
-
-  Please be cautious using these api keys.
-
-  We recommend creating keys in a way that they only have permissions to list lambdas, because storing them in browser may not be always be safe.
+(it uses @roadiehq/backstage-plugin-aws-auth backend plugin)
 
 Regardless of what auth method you use - you can also decide what functions to show in the table (what functions particular service uses) by annotating backstage.yaml with name of the functions separated by comma, like:
 
 ```yaml
 metadata:
   annotations:
-    backstage.io/aws-lambda: 'HelloWorld,HelloWorld2'
+    aws.com/lambda/function-name: HelloWorld
+    aws.com/lambda/region: us-east-1
 ```
+
+In order to add overview widget to your backstage entity page, please update
+
+```js
+// packages/app/src/components/catalog/EntityPage.tsx
+
+import {
+  AWSLambdaOverviewWidget,
+  isPluginApplicableToEntity as isLambdaWidgetAvailable,
+} from '@roadiehq/backstage-plugin-aws-lambda';
+
+...
+
+const OverviewContent = ({ entity }: { entity: Entity }) => (
+  <Grid container spacing={3}>
+    ...
+    {isLambdaWidgetAvailable(entity) && (
+      <Grid item>
+        <AWSLambdaOverviewWidget entity={entity} />
+      </Grid>
+    )}
+  </Grid>
+);
+```
+
+Add the api to
+
+```js
+// packages/app/src/plugins.ts
+
+export { plugin as AWSLambdaWidget } from '@roadiehq/backstage-plugin-aws-lambda';
+```
+
+Make sure you have aws auth backend plugin in your backstage backend (@roadiehq/backstage-plugin-aws-auth in packages/backend/src/plugins/aws.ts)
