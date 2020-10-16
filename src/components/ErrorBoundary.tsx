@@ -23,7 +23,7 @@ export default class ErrorBoundary extends Component<MyProps, MyState> {
       // You can render any custom fallback UI
       return (
         <Alert severity="error">
-          Something went wrong. Please make sure that you you installed:
+          Something went wrong. Please make sure that you installed:
           <strong>
             <a href="https://github.com/RoadieHQ/backstage-plugin-aws-auth" target="_blank" rel="noopener noreferrer">
              @roadiehq/backstage-plugin-aws-auth plugin
