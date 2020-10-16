@@ -1,35 +1,26 @@
-# AWS lambda plugin
+# AWS Lambda Plugin
 
-![a list of pull requests in the GitHub Pull Requests](https://raw.githubusercontent.com/RoadieHQ/backstage-plugin-aws-lambda/master/docs/lambda-widget.png)
+![preview of Lambda Widget](https://raw.githubusercontent.com/RoadieHQ/backstage-plugin-aws-lambda/master/docs/lambda-widget.png)
 
-Welcome to the AWS lambda plugin plugin!
+## Plugin Setup
 
-_This plugin was created through the Backstage CLI_
+1. Install the plugin
 
-This is a plugin that provides a overview widget for your lambda function. It shows the name, description, status of last deployment, reason for unsuccessful deployments and provides link to lambda function and link to logs of the function in cloudwatch.
-
-## AWS Lambda plugin getting started
-
-## auth
-
-In order to perform requests to AWS lambda plugin first asks backend for temporary credentials via /api/aws/credentials
-
-(it uses @roadiehq/backstage-plugin-aws-auth backend plugin)
-
-Regardless of what auth method you use - you can also decide what functions to show in the table (what functions particular service uses) by annotating backstage.yaml with name of the functions separated by comma, like:
-
-```yaml
-metadata:
-  annotations:
-    aws.com/lambda/function-name: HelloWorld
-    aws.com/lambda/region: us-east-1
+```bash
+yarn add @roadiehq/backstage-plugin-aws-lambda
 ```
 
-In order to add overview widget to your backstage entity page, please update
+2. Add plugin to the list of plugins:
 
-```js
+```ts
+// packages/app/src/plugins.ts
+export { plugin as AWSLambdaWidget } from '@roadiehq/backstage-plugin-aws-lambda';
+```
+
+3. Add Widget API to your Backstage instance:
+
+```ts
 // packages/app/src/components/catalog/EntityPage.tsx
-
 import {
   AWSLambdaOverviewWidget,
   isPluginApplicableToEntity as isLambdaWidgetAvailable,
@@ -49,12 +40,19 @@ const OverviewContent = ({ entity }: { entity: Entity }) => (
 );
 ```
 
-Add the api to
+## Authentication
 
-```js
-// packages/app/src/plugins.ts
+In order to perform requests to AWS lambda plugin first asks backend for temporary credentials via /api/aws/credentials
 
-export { plugin as AWSLambdaWidget } from '@roadiehq/backstage-plugin-aws-lambda';
+(it uses @roadiehq/backstage-plugin-aws-auth backend plugin)
+
+Regardless of what auth method you use - you can also decide what functions to show in the table (what functions particular service uses) by annotating backstage.yaml with name of the functions separated by comma, like:
+
+```yaml
+metadata:
+  annotations:
+    aws.com/lambda/function-name: HelloWorld
+    aws.com/lambda/region: us-east-1
 ```
 
-Make sure you have aws auth backend plugin in your backstage backend (@roadiehq/backstage-plugin-aws-auth in packages/backend/src/plugins/aws.ts)
+Make sure you have AWS auth backend plugin in your backstage backend (@roadiehq/backstage-plugin-aws-auth in packages/backend/src/plugins/aws.ts)
