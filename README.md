@@ -1,36 +1,58 @@
-# AWS lambda plugin
+# AWS Lambda Plugin
 
-Welcome to the AWS lambda plugin plugin!
+![preview of Lambda Widget](https://raw.githubusercontent.com/RoadieHQ/backstage-plugin-aws-lambda/master/docs/lambda-widget.png)
 
-_This plugin was created through the Backstage CLI_
+## Plugin Setup
 
-## Getting started
+1. Install the plugin
 
-Your plugin has been added to the example app in this repository, meaning you'll be able to access it by running `yarn start` in the root directory, and then navigating to (http://localhost:3000/aws-lambda).
+```bash
+yarn add @roadiehq/backstage-plugin-aws-lambda
+```
 
-You can also serve the plugin in isolation by running `yarn start` in the plugin directory.
-This method of serving the plugin provides quicker iteration speed and a faster startup and hot reloads.
+2. Add plugin to the list of plugins:
 
-## AWS Lambda plugin getting started
+```ts
+// packages/app/src/plugins.ts
+export { plugin as AWSLambdaWidget } from '@roadiehq/backstage-plugin-aws-lambda';
+```
 
-There are two options to authenticate with AWS with this plugin (configurable by clicking settings button in lambda table component).
+3. Add Widget API to your Backstage instance:
 
-- Identity pools:
+```ts
+// packages/app/src/components/catalog/EntityPage.tsx
+import {
+  AWSLambdaOverviewWidget,
+  isPluginApplicableToEntity as isLambdaWidgetAvailable,
+} from '@roadiehq/backstage-plugin-aws-lambda';
 
-  tutorial to use these can be found here:
+...
 
-  https://github.com/spotify/backstage/issues/1988#issuecomment-675559584
+const OverviewContent = ({ entity }: { entity: Entity }) => (
+  <Grid container spacing={3}>
+    ...
+    {isLambdaWidgetAvailable(entity) && (
+      <Grid item md={6}>
+        <AWSLambdaOverviewWidget entity={entity} />
+      </Grid>
+    )}
+  </Grid>
+);
+```
 
-- AWS Api key (ACCESS_KEY_ID, ACCESS_KEY_SECRET).
+## Authentication
 
-  Please be cautious using these api keys.
+In order to perform requests to AWS lambda plugin first asks backend for temporary credentials via /api/aws/credentials
 
-  We recommend creating keys in a way that they only have permissions to list lambdas, because storing them in browser may not be always be safe.
+(it uses @roadiehq/backstage-plugin-aws-auth backend plugin)
 
 Regardless of what auth method you use - you can also decide what functions to show in the table (what functions particular service uses) by annotating backstage.yaml with name of the functions separated by comma, like:
 
 ```yaml
 metadata:
   annotations:
-    backstage.io/aws-lambda: 'HelloWorld,HelloWorld2'
+    aws.com/lambda-function-name: HelloWorld
+    aws.com/lambda-region: us-east-1
 ```
+
+Make sure you have AWS auth backend plugin in your backstage backend (@roadiehq/backstage-plugin-aws-auth in packages/backend/src/plugins/aws.ts)

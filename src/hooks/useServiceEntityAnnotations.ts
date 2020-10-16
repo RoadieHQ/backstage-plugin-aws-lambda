@@ -16,17 +16,19 @@
 
 import { Entity } from '@backstage/catalog-model';
 
-export const AWS_LAMBDA_ANNOTATION = 'backstage.io/aws-lambda';
+export const AWS_LAMBDA_ANNOTATION = 'aws.com/lambda-function-name';
+export const AWS_LAMBDA_REGION_ANNOTATION = 'aws.com/lambda-region';
 export const useServiceEntityAnnotations = (entity: Entity) => {
-  const lambdaNames =
-    entity?.metadata.annotations?.[AWS_LAMBDA_ANNOTATION]?.split(',') ?? [];
+  const lambdaName =
+    entity?.metadata.annotations?.[AWS_LAMBDA_ANNOTATION] ?? '';
+  const lambdaRegion =
+    entity?.metadata.annotations?.[AWS_LAMBDA_REGION_ANNOTATION] ?? '';
   const projectName =
     entity?.metadata.annotations?.['github.com/project-slug'] ?? '';
 
   return {
-    value: projectName,
-    lambdaNames: lambdaNames,
-    loading: false,
-    error: false,
+    projectName,
+    lambdaName,
+    lambdaRegion,
   };
 };

@@ -23,21 +23,13 @@ export const awsLambdaApiRef = createApiRef<AwsLambdaApi>({
 });
 
 export type AwsLambdaApi = {
-  listLambdas: ({
-    googleIdToken,
-    identityPoolId,
+  getFunctionByName: ({
     awsRegion,
-    awsAccessKeyId,
-    awsAccessKeySecret,
-    authMethod,
+    backendUrl,
+    functionName,
   }: {
-    googleIdToken: string;
-    identityPoolId: string;
     awsRegion: string;
-    awsAccessKeyId: string;
-    awsAccessKeySecret: string;
-    authMethod: string;
-  }) => Promise<{
-    lambdaData: LambdaData[];
-  }>;
+    backendUrl: string;
+    functionName: string;
+  }) => Promise<LambdaData>;
 };
