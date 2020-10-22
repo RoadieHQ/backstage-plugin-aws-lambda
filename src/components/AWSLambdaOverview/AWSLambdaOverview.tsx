@@ -176,7 +176,7 @@ const OverviewComponent = ({ lambda }: { lambda: LambdaData }) => {
           >
             <Tooltip
               disableHoverListener={!lambda.lastUpdateStatusReason}
-              title={lambda.lastUpdateStatusReason}
+              title={lambda.lastUpdateStatusReason || ''}
             >
               <span>{lambda.lastUpdateStatus as string}</span>
             </Tooltip>
