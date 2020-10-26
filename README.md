@@ -1,6 +1,6 @@
 # AWS Lambda Plugin
 
-![preview of Lambda Widget](https://raw.githubusercontent.com/RoadieHQ/backstage-plugin-aws-lambda/master/docs/lambda-widget.png)
+![preview of Lambda Widget](https://raw.githubusercontent.com/RoadieHQ/backstage-plugin-aws-lambda/main/docs/lambda-widget.png)
 
 ## Plugin Setup
 
