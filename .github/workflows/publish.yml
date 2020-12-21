@@ -20,7 +20,7 @@ jobs:
         run: yarn install
 
       - name: Generate types
-        run: yarn tsc --build tsconfig.example.json
+        run: yarn tsc
 
       - name: Build
         run: yarn build-rollup
