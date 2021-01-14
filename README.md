@@ -4,20 +4,20 @@
 
 ## Plugin Setup
 
-1. Install the plugin
+1. Install the plugin in the `packages/app` directory
 
 ```bash
 yarn add @roadiehq/backstage-plugin-aws-lambda
 ```
 
-2. Add plugin to the list of plugins:
+2. Add plugin API to the list of plugins:
 
 ```ts
 // packages/app/src/plugins.ts
 export { plugin as AWSLambdaWidget } from '@roadiehq/backstage-plugin-aws-lambda';
 ```
 
-3. Add Widget API to your Backstage instance:
+3. Add widget component to your Backstage instance:
 
 ```ts
 // packages/app/src/components/catalog/EntityPage.tsx
@@ -55,4 +55,4 @@ metadata:
     aws.com/lambda-region: us-east-1
 ```
 
-Make sure you have AWS auth backend plugin in your backstage backend (@roadiehq/backstage-plugin-aws-auth in packages/backend/src/plugins/aws.ts)
+Make sure you have AWS auth backend plugin installed in your backstage backend (installation guide in the readme https://github.com/RoadieHQ/backstage-plugin-aws-auth)
