@@ -31,7 +31,7 @@
     "aws-sdk": "^2.734.0",
     "cross-fetch": "^3.0.6",
     "history": "^5.0.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router": "6.0.0-beta.0",
