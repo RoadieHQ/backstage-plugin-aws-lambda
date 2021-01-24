@@ -1,6 +1,6 @@
 {
   "name": "@roadiehq/backstage-plugin-aws-lambda",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "license": "Apache-2.0",
@@ -24,10 +24,7 @@
   "dependencies": {
     "@backstage/catalog-model": "^0.2.0",
     "@backstage/core": "^0.3.0",
-    "@backstage/plugin-catalog": "^0.2.0",
-    "@backstage/theme": "^0.2.0",
     "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "4.0.0-alpha.45",
     "aws-sdk": "^2.734.0",
     "cross-fetch": "^3.0.6",
@@ -41,12 +38,10 @@
   "devDependencies": {
     "@backstage/cli": "^0.2.0",
     "@backstage/dev-utils": "^0.1.2",
+    "@backstage/test-utils": "^0.1.6",
     "@testing-library/jest-dom": "^5.10.1",
     "@testing-library/react": "^10.4.1",
-    "@testing-library/user-event": "^12.0.7",
-    "@types/jest": "^26.0.7",
-    "@types/node": "^12.0.0",
-    "jest-fetch-mock": "^3.0.3",
+    "msw": "^0.25.0",
     "rollup": "2.23.1",
     "rollup-plugin-dts": "1.4.8",
     "rollup-plugin-esbuild": "^2.4.2",
