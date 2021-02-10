@@ -201,16 +201,6 @@ export const isRegionInAnnotations = (entity: Entity) =>
 export const isPluginApplicableToEntity = (entity: Entity) =>
   entity?.metadata.annotations?.[AWS_LAMBDA_ANNOTATION];
 
-export const AWSLambdaOverviewWidget = ({ entity }: { entity: Entity }) => {
-  return !isRegionInAnnotations(entity) ? (
-    <MissingAnnotationEmptyState annotation={AWS_LAMBDA_REGION_ANNOTATION} />
-  ) : (
-    <ErrorBoundary>
-      <AWSLambdaOverview entity={entity} />
-    </ErrorBoundary>
-  );
-};
-
 const AWSLambdaOverview = ({ entity }: { entity: Entity }) => {
   const { lambdaName, lambdaRegion } = useServiceEntityAnnotations(entity);
 
@@ -228,5 +218,15 @@ const AWSLambdaOverview = ({ entity }: { entity: Entity }) => {
   }
   return (
     <>{lambdaData.lambda && <OverviewComponent lambda={lambdaData.lambda} />}</>
+  );
+};
+
+export const AWSLambdaOverviewWidget = ({ entity }: { entity: Entity }) => {
+  return !isRegionInAnnotations(entity) ? (
+    <MissingAnnotationEmptyState annotation={AWS_LAMBDA_REGION_ANNOTATION} />
+  ) : (
+    <ErrorBoundary>
+      <AWSLambdaOverview entity={entity} />
+    </ErrorBoundary>
   );
 };
