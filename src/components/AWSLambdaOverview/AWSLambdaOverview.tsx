@@ -39,10 +39,9 @@ import {
 import { MissingAnnotationEmptyState } from '@backstage/core';
 import ErrorBoundary from '../ErrorBoundary';
 
-
 type States = 'Pending' | 'Active' | 'Inactive' | 'Failed';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   links: {
     margin: theme.spacing(2, 0),
     display: 'grid',
@@ -103,7 +102,7 @@ const AboutField = ({
       {content}
     </Grid>
   );
-}
+};
 
 const State = ({ value }: { value: States }) => {
   const colorMap = {
@@ -198,7 +197,7 @@ const OverviewComponent = ({ lambda }: { lambda: LambdaData }) => {
 
 export const isRegionInAnnotations = (entity: Entity) =>
   entity?.metadata.annotations?.[AWS_LAMBDA_REGION_ANNOTATION];
-export const isPluginApplicableToEntity = (entity: Entity) =>
+export const isAWSLambdaAvailable = (entity: Entity) =>
   entity?.metadata.annotations?.[AWS_LAMBDA_ANNOTATION];
 
 const AWSLambdaOverview = ({ entity }: { entity: Entity }) => {

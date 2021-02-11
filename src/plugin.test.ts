@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { plugin } from './plugin';
+import { awsLambdaPlugin } from './plugin';
 
 describe('aws-lambda', () => {
   it('should export plugin', () => {
-    expect(plugin).toBeDefined();
+    expect(awsLambdaPlugin).toBeDefined();
   });
 });
