@@ -14,10 +14,33 @@
  * limitations under the License.
  */
 
-import { createApiFactory, createPlugin } from '@backstage/core';
+import {
+  createApiFactory,
+  createComponentExtension,
+  createPlugin,
+  createRouteRef,
+} from '@backstage/core';
 import { awsLambdaApiRef, AwsLambdaClient } from './api';
 
-export const plugin = createPlugin({
+export const entityContentRouteRef = createRouteRef({
+  title: 'AWS Lambda Entity Content',
+});
+
+export const awsLambdaPlugin = createPlugin({
   id: 'aws-lambda',
   apis: [createApiFactory(awsLambdaApiRef, new AwsLambdaClient())],
+  routes: {
+    entityContent: entityContentRouteRef,
+  },
 });
+
+export const EntityAWSLambdaOverviewCard = awsLambdaPlugin.provide(
+  createComponentExtension({
+    component: {
+      lazy: () =>
+        import('./components/AWSLambdaOverview/AWSLambdaOverview').then(
+          (m) => m.AWSLambdaOverviewWidget
+        ),
+    },
+  })
+);
