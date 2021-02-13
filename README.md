@@ -14,7 +14,7 @@ yarn add @roadiehq/backstage-plugin-aws-lambda
 
 ```ts
 // packages/app/src/plugins.ts
-export { plugin as AWSLambdaWidget } from '@roadiehq/backstage-plugin-aws-lambda';
+export { awsLambdaPlugin as AWSLambdaWidget } from '@roadiehq/backstage-plugin-aws-lambda';
 ```
 
 3. Add widget component to your Backstage instance:
