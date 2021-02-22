@@ -23,7 +23,7 @@ export { awsLambdaPlugin as AWSLambdaWidget } from '@roadiehq/backstage-plugin-a
 // packages/app/src/components/catalog/EntityPage.tsx
 import {
   AWSLambdaOverviewWidget,
-  isPluginApplicableToEntity as isLambdaWidgetAvailable,
+  isAWSLambdaAvailable
 } from '@roadiehq/backstage-plugin-aws-lambda';
 
 ...
@@ -31,7 +31,7 @@ import {
 const OverviewContent = ({ entity }: { entity: Entity }) => (
   <Grid container spacing={3}>
     ...
-    {isLambdaWidgetAvailable(entity) && (
+    {isAWSLambdaAvailable(entity) && (
       <Grid item md={6}>
         <AWSLambdaOverviewWidget entity={entity} />
       </Grid>
