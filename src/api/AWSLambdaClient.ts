@@ -23,6 +23,8 @@ async function generateCredentials(backendUrl: string, options: {
 }) {
   const respData = await fetch(`${backendUrl}/api/aws/credentials`, {
     headers: {
+      // Disable eqeqeq rule for next line to allow it to pick up both undefind and null
+      // eslint-disable-next-line eqeqeq 
       ...(options == null ? void 0 : options.token) && {Authorization: `Bearer ${options == null ? void 0 : options.token}`}
     }
   });
