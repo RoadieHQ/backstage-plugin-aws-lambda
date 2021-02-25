@@ -18,8 +18,14 @@ import AWS from 'aws-sdk';
 import { AwsLambdaApi } from './AWSLambdaApi';
 import { LambdaData } from '../types';
 
-async function generateCredentials(backendUrl: string) {
-  const respData = await fetch(`${backendUrl}/api/aws/credentials`);
+async function generateCredentials(backendUrl: string, options: {
+  token: string | null
+}) {
+  const respData = await fetch(`${backendUrl}/api/aws/credentials`, {
+    headers: {
+      ...(options == null ? void 0 : options.token) && {Authorization: `Bearer ${options == null ? void 0 : options.token}`}
+    }
+  });
   try {
     const resp = await respData.json();
     return new AWS.Credentials({
@@ -36,13 +42,15 @@ export class AwsLambdaClient implements AwsLambdaApi {
     awsRegion,
     backendUrl,
     functionName,
+    token
   }: {
     awsRegion: string;
     backendUrl: string;
     functionName: string;
+    token: string;
   }): Promise<LambdaData> {
     AWS.config.region = awsRegion;
-    AWS.config.credentials = await generateCredentials(backendUrl);
+    AWS.config.credentials = await generateCredentials(backendUrl, { token });
     const lambdaApi = new AWS.Lambda({});
     const resp = await lambdaApi
       .getFunction({

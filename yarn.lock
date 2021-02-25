@@ -1050,20 +1050,20 @@
     yaml "^1.9.2"
     yup "^0.29.3"
 
-"@backstage/config@^0.1.1", "@backstage/config@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@backstage/config/-/config-0.1.2.tgz#bf29595e4566562a0c28e371d6c504f0ec9d5a87"
-  integrity sha512-JI92C2YbchNzByowdDzZlULh1hwP1Q0ax6DqbwBPJ2BrOrM+9fCJxFQx4xVm2b+OILpIZZKX77GxO0PbamxnZg==
+"@backstage/config@^0.1.1", "@backstage/config@^0.1.2", "@backstage/config@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@backstage/config/-/config-0.1.3.tgz#e9d182cbbedbf49f362e004ae10da35180a0c252"
+  integrity sha512-kniSfPEM6FrT1qYqdslxfuFyGfJq0EeQQg3eUjUoF5GsIYMXnoss5vimmrkxuRbH0bdMLTPle9+JsjfDQr0Y9Q==
   dependencies:
     lodash "^4.17.15"
 
-"@backstage/core-api@^0.2.7", "@backstage/core-api@^0.2.8":
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/@backstage/core-api/-/core-api-0.2.9.tgz#c6955eeb5e26f66b5def0f93f2c148c5cad6ccdd"
-  integrity sha512-rTj51K3Q06YOvhIBzRvWVQ/C3DvAytQLELOt5c/XcLDuEdTi8Ocen/j+ufmeZg8RoIMIEGBwLGwzmOOxEK2e5Q==
+"@backstage/core-api@^0.2.11", "@backstage/core-api@^0.2.7":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@backstage/core-api/-/core-api-0.2.11.tgz#503f2cd60387776dc1f74e02a483a995755f0225"
+  integrity sha512-n4gcT3q7y4016pUkBumD7BD2p9AoPEYVrkazQNY/ltwuyfDsa/q8NxF3T8YgMsDo/S1in91Ae6BnTnN2OWVdmg==
   dependencies:
-    "@backstage/config" "^0.1.2"
-    "@backstage/theme" "^0.2.2"
+    "@backstage/config" "^0.1.3"
+    "@backstage/theme" "^0.2.3"
     "@material-ui/core" "^4.11.0"
     "@material-ui/icons" "^4.9.1"
     "@types/prop-types" "^15.7.3"
@@ -1074,13 +1074,13 @@
     react-use "^15.3.3"
     zen-observable "^0.8.15"
 
-"@backstage/core@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@backstage/core/-/core-0.6.0.tgz#28caed4d72fe19ef41dc7d11080e3f721152b4a0"
-  integrity sha512-bpYz7VczmajfvDO8PlHI2wFduiPUwC2AX5EsKEZywNiZncAI+zMw3sxvP+zdZlHOhUbvomixWqwUz12o1FV81Q==
+"@backstage/core@^0.6.0", "@backstage/core@^0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@backstage/core/-/core-0.6.3.tgz#574ca46ab59e18af07fcf3a248c4428d4dfcc302"
+  integrity sha512-OSpnvotyCkb6fL02T1Z5TLcogRlOzVIH8YBfNlKeo/Xo/JnlVp1uSpQxCWjAW/lzGK5gp6oh3ezFRjm69mTwSA==
   dependencies:
-    "@backstage/config" "^0.1.2"
-    "@backstage/core-api" "^0.2.8"
+    "@backstage/config" "^0.1.3"
+    "@backstage/core-api" "^0.2.11"
     "@backstage/theme" "^0.2.3"
     "@material-ui/core" "^4.11.0"
     "@material-ui/icons" "^4.9.1"
@@ -1090,6 +1090,7 @@
     "@types/prop-types" "^15.7.3"
     "@types/react" "^16.9"
     "@types/react-sparklines" "^1.7.0"
+    "@types/react-text-truncate" "^0.14.0"
     classnames "^2.2.6"
     clsx "^1.1.0"
     d3-selection "^2.0.0"
@@ -1111,6 +1112,7 @@
     react-router-dom "6.0.0-beta.0"
     react-sparklines "^1.7.0"
     react-syntax-highlighter "^13.5.1"
+    react-text-truncate "^0.16.0"
     react-use "^15.3.3"
     remark-gfm "^1.0.0"
     zen-observable "^0.8.15"
@@ -2134,6 +2136,13 @@
   version "17.0.0"
   resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-17.0.0.tgz#9be47b375eeb906fced37049e67284a438d56620"
   integrity sha512-nvw+F81OmyzpyIE1S0xWpLonLUZCMewslPuA8BtjSKc5XEbn8zEQBXS7KuOLHTNnSOEM2Pum50gHOoZ62tqTRg==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-text-truncate@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@types/react-text-truncate/-/react-text-truncate-0.14.0.tgz#588bbabbc7f2a13815e805f3a48942db73fe65fe"
+  integrity sha512-XZNmx8mMPFjRLFjFqIF5uLPXEZ4THKxoEv1yU63JzInV3ES42PD+DaQOK6+Rd+cRolzrNoY4YIY9rrW8kh4ikw==
   dependencies:
     "@types/react" "*"
 
@@ -9982,7 +9991,7 @@ prop-types@15.6.2:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-prop-types@^15.5.10, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -10360,6 +10369,13 @@ react-syntax-highlighter@^13.5.1:
     lowlight "^1.14.0"
     prismjs "^1.21.0"
     refractor "^3.1.0"
+
+react-text-truncate@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/react-text-truncate/-/react-text-truncate-0.16.0.tgz#03bbb942437dfba5cc0faf614f1339f888926f80"
+  integrity sha512-hMFXhUHgIBCCDaOfOsZAFeO4DGfG/paLyaS/F+X11CXseuScpxmMBUW6Luwjk9/FlGrVJWNGy1FSfK6b4yyiIg==
+  dependencies:
+    prop-types "^15.5.7"
 
 react-transition-group@^4.0.0, react-transition-group@^4.4.0:
   version "4.4.1"
