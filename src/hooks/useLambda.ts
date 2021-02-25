@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { useAsyncRetry } from 'react-use';
-import { useApi, errorApiRef, configApiRef } from '@backstage/core';
+import { useApi, errorApiRef, configApiRef, identityApiRef } from '@backstage/core';
 import { LambdaData } from '../types';
 import { awsLambdaApiRef } from '../api';
 import { useCallback } from 'react';
@@ -29,12 +29,14 @@ export function useLambda({
   const lambdaApi = useApi(awsLambdaApiRef);
   const errorApi = useApi(errorApiRef);
   const configApi = useApi(configApiRef);
+  const identityApi = useApi(identityApiRef);
   const getFunctionByName = useCallback(
     async () =>
       lambdaApi.getFunctionByName({
         backendUrl: configApi.getString('backend.baseUrl'),
         awsRegion: region,
         functionName: lambdaName,
+        token: identityApi?.idTokenFunc ? await identityApi.idTokenFunc() : null
       }),
     [region, lambdaName], // eslint-disable-line react-hooks/exhaustive-deps
   );

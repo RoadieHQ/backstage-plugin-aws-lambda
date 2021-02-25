@@ -21,6 +21,7 @@ import {
   ApiProvider,
   configApiRef,
   errorApiRef,
+  identityApiRef
 } from '@backstage/core';
 import { rest } from 'msw';
 import { msw } from '@backstage/test-utils';
@@ -34,6 +35,7 @@ import { awsLambdaApiRef, AWSLambdaOverviewWidget } from '../..';
 import { AwsLambdaClient } from '../../api';
 
 const errorApiMock = { post: jest.fn(), error$: jest.fn() };
+const identityApiMock = { idTokenFunc: jest.fn(), error$: jest.fn() };
 
 const config = {
   getString: (_: string) => 'https://test-url',
@@ -43,6 +45,7 @@ const apis = ApiRegistry.from([
   [errorApiRef, errorApiMock],
   [configApiRef, config],
   [awsLambdaApiRef, new AwsLambdaClient()],
+  [identityApiRef, identityApiMock]
 ]);
 
 describe('AWSLambdaCard', () => {

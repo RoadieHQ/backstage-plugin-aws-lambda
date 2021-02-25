@@ -27,9 +27,11 @@ export type AwsLambdaApi = {
     awsRegion,
     backendUrl,
     functionName,
+    token
   }: {
     awsRegion: string;
     backendUrl: string;
     functionName: string;
+    token?: string;
   }) => Promise<LambdaData>;
 };
