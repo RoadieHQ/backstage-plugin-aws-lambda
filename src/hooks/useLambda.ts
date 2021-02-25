@@ -36,7 +36,7 @@ export function useLambda({
         backendUrl: configApi.getString('backend.baseUrl'),
         awsRegion: region,
         functionName: lambdaName,
-        token: identityApi?.idTokenFunc ? await identityApi.idTokenFunc() : null
+        token: identityApi?.getIdToken ? await identityApi.getIdToken() : undefined
       }),
     [region, lambdaName], // eslint-disable-line react-hooks/exhaustive-deps
   );

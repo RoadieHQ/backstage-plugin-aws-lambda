@@ -19,7 +19,7 @@ import { AwsLambdaApi } from './AWSLambdaApi';
 import { LambdaData } from '../types';
 
 async function generateCredentials(backendUrl: string, options: {
-  token: string | null
+  token: string | undefined
 }) {
   const respData = await fetch(`${backendUrl}/api/aws/credentials`, {
     headers: {
@@ -47,7 +47,7 @@ export class AwsLambdaClient implements AwsLambdaApi {
     awsRegion: string;
     backendUrl: string;
     functionName: string;
-    token: string;
+    token?: string;
   }): Promise<LambdaData> {
     AWS.config.region = awsRegion;
     AWS.config.credentials = await generateCredentials(backendUrl, { token });
