@@ -31,7 +31,7 @@
     "@backstage/core": "^0.6.3",
     "@material-ui/core": "^4.11.0",
     "@material-ui/lab": "4.0.0-alpha.45",
-    "aws-sdk": "^2.820.0",
+    "aws-sdk": "^2.842.0",
     "cross-fetch": "^3.0.6",
     "history": "^5.0.0",
     "moment": "^2.29.1",
