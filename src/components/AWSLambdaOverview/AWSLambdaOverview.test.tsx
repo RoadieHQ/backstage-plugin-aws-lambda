@@ -25,6 +25,7 @@ import {
 } from '@backstage/core';
 import { rest } from 'msw';
 import { msw } from '@backstage/test-utils';
+import { EntityProvider } from '@backstage/plugin-catalog-react';
 import { setupServer } from 'msw/node';
 import {
   credentialsResponseMock,
@@ -67,7 +68,9 @@ describe('AWSLambdaCard', () => {
   it('should display an ovreview card with the data from the requests', async () => {
     const rendered = render(
       <ApiProvider apis={apis}>
-        <AWSLambdaOverviewWidget entity={entityMock} />
+        <EntityProvider entity={entityMock}>
+          <AWSLambdaOverviewWidget />
+        </EntityProvider>
       </ApiProvider>
     );
     expect(

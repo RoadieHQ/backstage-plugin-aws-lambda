@@ -38,6 +38,7 @@ import {
 } from '../../hooks/useServiceEntityAnnotations';
 import { MissingAnnotationEmptyState } from '@backstage/core';
 import ErrorBoundary from '../ErrorBoundary';
+import { useEntity } from "@backstage/plugin-catalog-react";
 
 type States = 'Pending' | 'Active' | 'Inactive' | 'Failed';
 
@@ -220,7 +221,13 @@ const AWSLambdaOverview = ({ entity }: { entity: Entity }) => {
   );
 };
 
-export const AWSLambdaOverviewWidget = ({ entity }: { entity: Entity }) => {
+type Props = {
+  /** @deprecated The entity is now grabbed from context instead */
+  entity?: Entity;
+};
+
+export const AWSLambdaOverviewWidget = (_props: Props) => {
+  const { entity } = useEntity();
   return !isRegionInAnnotations(entity) ? (
     <MissingAnnotationEmptyState annotation={AWS_LAMBDA_REGION_ANNOTATION} />
   ) : (
