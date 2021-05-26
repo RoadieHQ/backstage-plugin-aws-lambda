@@ -32,7 +32,7 @@
     "@backstage/plugin-catalog-react": "^0.1.4",
     "@material-ui/core": "^4.11.3",
     "@material-ui/lab": "4.0.0-alpha.57",
-    "aws-sdk": "^2.876.0",
+    "aws-sdk": "^2.900.0",
     "cross-fetch": "^3.0.6",
     "history": "^5.0.0",
     "moment": "^2.29.1",
