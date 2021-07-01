@@ -19,7 +19,7 @@ import {
   createComponentExtension,
   createPlugin,
   createRouteRef,
-} from '@backstage/core';
+} from '@backstage/core-plugin-api';
 import { awsLambdaApiRef, AwsLambdaClient } from './api';
 
 export const entityContentRouteRef = createRouteRef({

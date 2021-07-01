@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { errorApiRef, useApi } from '@backstage/core';
+import { errorApiRef, useApi } from '@backstage/core-plugin-api';
 import { useContext, useEffect } from 'react';
 import { AppContext, STORAGE_KEY } from './AppState';
 import { Settings } from './types';
