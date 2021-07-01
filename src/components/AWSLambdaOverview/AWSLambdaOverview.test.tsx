@@ -17,12 +17,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import {
-  ApiRegistry,
-  ApiProvider,
   configApiRef,
   errorApiRef,
   identityApiRef
-} from '@backstage/core';
+} from '@backstage/core-plugin-api';
+import {
+  ApiRegistry,
+  ApiProvider
+} from '@backstage/core-app-api';
 import { rest } from 'msw';
 import { msw } from '@backstage/test-utils';
 import { EntityProvider } from '@backstage/plugin-catalog-react';

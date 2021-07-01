@@ -36,7 +36,7 @@ import {
   AWS_LAMBDA_REGION_ANNOTATION,
   useServiceEntityAnnotations,
 } from '../../hooks/useServiceEntityAnnotations';
-import { MissingAnnotationEmptyState } from '@backstage/core';
+import { MissingAnnotationEmptyState } from '@backstage/core-components';
 import ErrorBoundary from '../ErrorBoundary';
 import { useEntity } from "@backstage/plugin-catalog-react";
 

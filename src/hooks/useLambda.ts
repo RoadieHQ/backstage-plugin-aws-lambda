@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { useAsyncRetry } from 'react-use';
-import { useApi, errorApiRef, configApiRef, identityApiRef } from '@backstage/core';
+import { useApi, errorApiRef, configApiRef, identityApiRef } from '@backstage/core-plugin-api';
 import { LambdaData } from '../types';
 import { awsLambdaApiRef } from '../api';
 import { useCallback } from 'react';
