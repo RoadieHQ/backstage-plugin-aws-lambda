@@ -2,6 +2,11 @@
 
 ![preview of Lambda Widget](https://raw.githubusercontent.com/RoadieHQ/backstage-plugin-aws-lambda/main/docs/lambda-widget.png)
 
+## Repository migration notice (June/July 2021)
+
+In order to make testing and deployment of our plugins easier we are migrating all Roadie plugins to a monorepo at https://github.com/RoadieHQ/roadie-backstage-plugins.
+The plugins will still be published to the same place on NPM and will have the same package names so nothing should change for consumers of these plugins.
+
 ## Plugin Setup
 
 1. Install the plugin in the `packages/app` directory
@@ -10,32 +15,26 @@
 yarn add @roadiehq/backstage-plugin-aws-lambda
 ```
 
-2. Add plugin API to the list of plugins:
-
-```ts
-// packages/app/src/plugins.ts
-export { awsLambdaPlugin as AWSLambdaWidget } from '@roadiehq/backstage-plugin-aws-lambda';
-```
-
-3. Add widget component to your Backstage instance:
+2. Add widget component to your Backstage instance:
 
 ```ts
 // packages/app/src/components/catalog/EntityPage.tsx
 import {
-  AWSLambdaOverviewWidget,
+  EntityAWSLambdaOverviewCard,
   isAWSLambdaAvailable
 } from '@roadiehq/backstage-plugin-aws-lambda';
 
 ...
 
-const OverviewContent = ({ entity }: { entity: Entity }) => (
-  <Grid container spacing={3}>
-    ...
-    {isAWSLambdaAvailable(entity) && (
-      <Grid item md={6}>
-        <AWSLambdaOverviewWidget entity={entity} />
-      </Grid>
-    )}
+const overviewContent = (
+  <Grid container spacing={3} alignItems="stretch">
+   <EntitySwitch>
+      <EntitySwitch.Case if={e => Boolean(isAWSLambdaAvailable(e))}>
+        <Grid item md={6}>
+          <EntityAWSLambdaOverviewCard />
+        </Grid>
+      </EntitySwitch.Case>
+   </EntitySwitch>
   </Grid>
 );
 ```
